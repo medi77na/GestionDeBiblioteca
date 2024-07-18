@@ -8,9 +8,9 @@ namespace GestionDeBiblioteca.Models
     public class Publicacion
     {
         public string Titulo { get; set; }
-        public DateOnly AnoPublicacion { get; set; }
+        public int AnoPublicacion { get; set; }
 
-        public Publicacion(string titulo, DateOnly anoPublicacion)
+        public Publicacion(string titulo, int anoPublicacion)
         {
             Titulo = titulo;
             AnoPublicacion = anoPublicacion;

@@ -7,7 +7,7 @@ namespace GestionDeBiblioteca.Models
 {
     public class Libro : Publicacion
     {
-        
+
         public string? Autor { get; set; }
         public string? ISBN { get; set; }
         public string? Genero { get; set; }
@@ -24,7 +24,15 @@ namespace GestionDeBiblioteca.Models
 
         public override string ToString()
         {
-            return $"Título: {Titulo}, Autor: {Autor}, ISBN: {ISBN}, Género: {Genero}, Precio: {Precio:C2}";
+            return $"|  {Titulo,-18}| {Autor,-18}| {ISBN,-11}| {Genero,-13}| {Precio,-20:C2}|";
+        }
+
+        public void AplicarDescuento(double value)
+        {
+            Precio -= (Precio * value) / 100;
+            Console.WriteLine($"Descuento aplicado: {value}%. Nuevo precio: {Precio:C2}");
+            Console.Write("Oprima una tecla para continuar: ");
+            Console.ReadKey();
         }
 
     }

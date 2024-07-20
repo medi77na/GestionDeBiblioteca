@@ -62,6 +62,7 @@ namespace GestionDeBiblioteca.Models
                     Console.WriteLine(libro.ToString());
                 }
                 Console.WriteLine("--------------------------------------------------------------------------------------------");
+                Console.WriteLine("");
                 Console.Write("Oprima una tecla para continuar: ");
                 Console.ReadKey();
             }

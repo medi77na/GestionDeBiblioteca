@@ -25,6 +25,7 @@ public class Program
 
     public static int MostrarMenu()
     {
+        Console.Clear();
         while (true)
         {
             Console.WriteLine(@"MENU OPCIONES
@@ -47,7 +48,12 @@ public class Program
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Error: La entrada no es un número entero válido. Por favor, intente de nuevo.");
+                Console.WriteLine("");
+                Console.WriteLine("Oprima una tecla para continuar... ");
+                Console.ReadKey();
+                Console.Clear();
             }
         }
     }
@@ -62,27 +68,40 @@ public class Program
             switch (opcion)
             {
                 case 1:
+                    Console.Clear();
                     SolicitudCrearLibro();
                     break;
                 case 2:
+                    Console.Clear();
                     SolicitudEliminarLibro();
                     break;
                 case 3:
+                    Console.Clear();
                     SolicitudBuscarLibroPorTitulo();
                     break;
                 case 4:
+                    Console.Clear();
                     SolicitudMostrarLibros();
                     break;
                 case 5:
+                    Console.Clear();
                     SolicitudDescuentoLibro();
                     break;
                 case 6:
+                    Console.Clear();
                     Console.WriteLine("Hasta luego.");
-                    Console.Write("Oprima una tecla para continuar: ");
+                    Console.WriteLine("");
+                    Console.WriteLine("Oprima una tecla para continuar... ");
                     Console.ReadKey();
+                    Console.Clear();
                     break;
                 default:
-                    Console.Write("Opción incorrecta.");
+                    Console.Clear();
+                    Console.WriteLine("Error: La entrada no es válida. Por favor, intente de nuevo.");
+                    Console.WriteLine("");
+                    Console.WriteLine("Oprima una tecla para continuar... ");
+                    Console.ReadKey();
+
                     break;
             }
         } while (opcion != 6);
@@ -105,13 +124,16 @@ public class Program
 
         biblioteca.AgregarLibro(new Libro(titulo, anoPublicacion, autor, isbn, genero, precio));
 
+        Console.Clear();
         Console.WriteLine("Libro agregado correctamente...");
-        Console.Write("Oprima una tecla para continuar: ");
+        Console.WriteLine("");
+        Console.WriteLine("Oprima una tecla para continuar... ");
         Console.ReadKey();
     }
 
     public static void SolicitudEliminarLibro()
     {
+        SolicitudMostrarLibros();
         string? isbn = ValidarString("Ingrese el ISBN del libro: ");
         var libro = biblioteca.BuscarLibroPorIsbn(isbn);
 
@@ -119,15 +141,17 @@ public class Program
         {
             Console.Write("");
             biblioteca.EliminarLibro(libro);
+            Console.Clear();
             Console.WriteLine("Libro eliminado correctamente...");
-            Console.Write("Oprima una tecla para continuar: ");
+            Console.Write("");
+            Console.WriteLine("Oprima una tecla para continuar... ");
             Console.ReadKey();
         }
         else
         {
             Console.Write("");
             Console.WriteLine("No se encontró el ISBN digitado.");
-            Console.Write("Oprima una tecla para continuar: ");
+            Console.WriteLine("Oprima una tecla para continuar... ");
             Console.ReadKey();
         }
     }
@@ -135,7 +159,22 @@ public class Program
     public static void SolicitudBuscarLibroPorTitulo()
     {
         var titulo = ValidarString("Ingrese el título del libro que desea buscar: ");
-        biblioteca.BuscarLibroPorTitulo(titulo);
+        var libro = biblioteca.BuscarLibroPorTitulo(titulo);
+        if (libro == null)
+        {
+            Console.WriteLine("Libro no encontrado.");
+            Console.WriteLine("Oprima una tecla para continuar... ");
+            Console.ReadKey();
+        }
+        else
+        {
+            Console.Clear();
+            biblioteca.MostrarEncabezadoLibros();
+            Console.WriteLine(libro.ToString());
+            Console.WriteLine("");
+            Console.WriteLine("Oprima una tecla para continuar... ");
+            Console.ReadKey();
+        }
     }
 
     public static void SolicitudMostrarLibros()
@@ -143,14 +182,14 @@ public class Program
         Console.WriteLine(@$"                                                 LIBROS EN LA BIBLIOTECA");
         Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
         biblioteca.MostrarLibros();
-        Console.Write("Oprima una tecla para continuar: ");
+        Console.WriteLine("Oprima una tecla para continuar... ");
         Console.ReadKey();
-        Console.Clear();
+        Console.WriteLine("");
     }
 
     public static void SolicitudDescuentoLibro()
     {
-        biblioteca.MostrarLibros();
+        SolicitudMostrarLibros();
         string? isbn = ValidarString("Ingrese el ISBN del libro: ");
         var libro = biblioteca.BuscarLibroPorIsbn(isbn);
 
@@ -161,14 +200,14 @@ public class Program
             double precio = biblioteca.DescuentoLibro(libro, descuento);
             Console.Clear();
             Console.WriteLine($"Descuento aplicado: {descuento}%. Nuevo precio: {precio:C2}");
-            Console.Write("Oprima una tecla para continuar: ");
+            Console.WriteLine("Oprima una tecla para continuar... ");
             Console.ReadKey();
         }
         else
         {
             Console.Write("");
             Console.WriteLine("No se encontró el ISBN digitado.");
-            Console.Write("Oprima una tecla para continuar: ");
+            Console.WriteLine("Oprima una tecla para continuar... ");
             Console.ReadKey();
         }
     }
@@ -183,66 +222,71 @@ public class Program
             value = Console.ReadLine();
             if (string.IsNullOrEmpty(value))
             {
-                Console.WriteLine($"Error: {text} no puede estar vacío.");
-                Console.Write("Oprima una tecla para continuar: ");
+                Console.Clear();
+                Console.WriteLine($"Error: El campo -{text}- no puede estar vacío.");
+                Console.WriteLine("");
+                Console.WriteLine("Oprima una tecla para continuar... ");
                 Console.ReadKey();
-                return "";
+                Console.Clear();
             }
             else
             {
                 bandera = false;
-                return value;
             }
-        } while (bandera);  
+        } while (bandera);
+        return value;
     }
 
     public static double ValidarDouble(string text)
     {
         bool bandera = true;
+        double result = 0;
         do
         {
             Console.Write(text);
             string? value = Console.ReadLine();
 
-            if (string.IsNullOrEmpty(value) || !Double.TryParse(value, out double result))
+            if (string.IsNullOrEmpty(value) || !Double.TryParse(value, out result))
             {
-                Console.WriteLine("Entrada incorrecta, Digite nuevamente.");
-                Console.Write("Oprima una tecla para continuar: ");
+                Console.Clear();
+                Console.WriteLine($"Error: El campo -{text}- no fue digtado correctamente.");
+                Console.WriteLine("");
+                Console.WriteLine("Oprima una tecla para continuar... ");
                 Console.ReadKey();
-                return 0;
+                Console.Clear();
             }
             else
             {
                 bandera = false;
-                return result;
             }
-
         } while (bandera);
+        return result;
     }
 
     public static int ValidarInt(string text)
     {
         bool bandera = true;
+        int result = 0;
         do
         {
             Console.Write(text);
             string? value = Console.ReadLine();
 
-            if (string.IsNullOrEmpty(value) || !int.TryParse(value, out int result))
+            if (string.IsNullOrEmpty(value) || !int.TryParse(value, out result))
             {
-                Console.WriteLine("Entrada incorrecta, Digite nuevamente.");
-                Console.Write("Oprima una tecla para continuar: ");
+                Console.Clear();
+                Console.WriteLine($"Error: El campo -{text}- no fue digtado correctamente.");
+                Console.WriteLine("");
+                Console.WriteLine("Oprima una tecla para continuar... ");
                 Console.ReadKey();
-                return 0;
+                Console.Clear();
             }
             else
             {
                 bandera = false;
-                return result;
             }
 
         } while (bandera);
+        return result;
     }
-
-
 }

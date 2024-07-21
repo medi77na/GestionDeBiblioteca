@@ -21,24 +21,6 @@ namespace GestionDeBiblioteca.Models
             Libros.Add(libro);
         }
 
-        public void BuscarLibroPorTitulo(string titulo)
-        {
-            var valorRetorno = Libros.FirstOrDefault(libro => libro.Titulo.ToLower() == titulo.ToLower());
-
-            if (valorRetorno == null)
-            {
-                Console.WriteLine("No se encontró el libro");
-            }
-            else
-            {
-                Console.WriteLine("Libro encontrado:");
-                Console.WriteLine(valorRetorno.ToString());
-            }
-
-            Console.Write("Oprima una tecla para continuar: ");
-            Console.ReadKey();
-        }
-
         public void EliminarLibro(Libro libro)
         {
             Libros.Remove(libro);
@@ -55,9 +37,7 @@ namespace GestionDeBiblioteca.Models
             }
             else
             {
-                Console.WriteLine(@"| Título                  | Autor                  | ISBN            | Género            | Precio                   |");
-                Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
-
+                MostrarEncabezadoLibros();
                 foreach (var libro in Libros)
                 {
                     Console.WriteLine(libro.ToString());
@@ -80,7 +60,43 @@ namespace GestionDeBiblioteca.Models
             {
                 return null;
             }
-            return libro;
+            else
+            {
+                return libro;
+            }
+        }
+
+        public Libro? BuscarLibroPorTitulo(string titulo)
+        {
+            var libro = Libros.FirstOrDefault(libro => libro.Titulo.ToLower() == titulo.ToLower());
+
+            if (libro == null)
+            {
+                return null;
+            }
+            else
+            {
+                return libro;
+            }
+        }
+
+        public Libro? BuscarLibroPorAutor(string autor)
+        {
+            var libro = Libros.FirstOrDefault(libro => libro.Autor == autor);
+            if (libro == null)
+            {
+                return null;
+            }
+            else
+            {
+                return libro;
+            }
+        }
+
+        public void MostrarEncabezadoLibros()
+        {
+            Console.WriteLine(@"| Título                  | Autor                  | ISBN            | Género            | Precio                   |");
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
         }
 
         public override string ToString()

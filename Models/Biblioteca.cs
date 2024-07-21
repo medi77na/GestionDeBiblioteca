@@ -46,41 +46,41 @@ namespace GestionDeBiblioteca.Models
 
         public void MostrarLibros()
         {
-            Console.WriteLine(@$"                                  LIBROS EN LA BIBLIOTECA:");
-            Console.WriteLine("--------------------------------------------------------------------------------------------");
+
+
             if (Libros.Count == 0)
             {
                 Console.WriteLine("No hay libros en la biblioteca.");
+                Console.WriteLine("");
             }
             else
             {
-                Console.WriteLine(@"| Título             | Autor             | ISBN       | Género       | Precio              |");
-                Console.WriteLine("--------------------------------------------------------------------------------------------");
+                Console.WriteLine(@"| Título                  | Autor                  | ISBN            | Género            | Precio                   |");
+                Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
 
                 foreach (var libro in Libros)
                 {
                     Console.WriteLine(libro.ToString());
                 }
-                Console.WriteLine("--------------------------------------------------------------------------------------------");
+                Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
                 Console.WriteLine("");
-                Console.Write("Oprima una tecla para continuar: ");
-                Console.ReadKey();
             }
         }
 
-        public void SolicitarDescuento()
+        public double DescuentoLibro(Libro libro, double value)
         {
-            MostrarLibros();
-            Console.Write("Ingrese el ISBN del libro: ");
-            var isbn = Console.ReadLine();
+            libro.Precio -= libro.Precio * value / 100;
+            return libro.Precio;
+        }
 
+        public Libro? BuscarLibroPorIsbn(string isbn)
+        {
             var libro = Libros.FirstOrDefault(libro => libro.ISBN == isbn);
-            if (libro != null)
+            if (libro == null)
             {
-                Console.Write("Ingrese el porcentaje de descuento (0-100): ");
-                var descuento = Convert.ToDouble(Console.ReadLine());
-                libro.AplicarDescuento(descuento);
+                return null;
             }
+            return libro;
         }
 
         public override string ToString()

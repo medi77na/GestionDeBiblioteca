@@ -32,7 +32,7 @@ public class Program
 ----------------------------------------------------------------
 1. Agregar libro
 2. Eliminar libro
-3. Buscar libro por título
+3. Buscar un libro
 4. Mostrar todos los libros
 5. Agregar descuento a un libro
 6. Salir
@@ -156,6 +156,28 @@ public class Program
         }
     }
 
+
+    public static void SolicitudBuscarLibro()
+    {
+        int opcion = ValidarInt(@"Buscar libro por: 
+1. Autor
+2. Título
+3. ISBN
+4. Año de publicación
+5. Rango de años de publicación
+6. Género");
+
+        switch (opcion)
+        {
+            case 1:
+
+                break;
+            default:
+                break;
+        }
+        
+
+    }
     public static void SolicitudBuscarLibroPorTitulo()
     {
         var titulo = ValidarString("Ingrese el título del libro que desea buscar: ");
@@ -176,6 +198,28 @@ public class Program
             Console.ReadKey();
         }
     }
+
+        public static void SolicitudBuscarLibroPorAutor()
+    {
+        var autor = ValidarString("Ingrese el nombre del autor del libro que desea buscar: ");
+        var libro = biblioteca.BuscarLibroPorAutor(autor);
+        if (libro == null)
+        {
+            Console.WriteLine("Libro no encontrado.");
+            Console.WriteLine("Oprima una tecla para continuar... ");
+            Console.ReadKey();
+        }
+        else
+        {
+            Console.Clear();
+            biblioteca.MostrarEncabezadoLibros();
+            Console.WriteLine(libro.ToString());
+            Console.WriteLine("");
+            Console.WriteLine("Oprima una tecla para continuar... ");
+            Console.ReadKey();
+        }
+    }
+
 
     public static void SolicitudMostrarLibros()
     {
